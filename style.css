@@ -1,0 +1,12 @@
+body{     /*body는 기본값으로 마진이 8px이 들어감*/
+    margin:0;
+    background-image: url("image/background.jfif");
+    background-repeat: no-repeat;/*반복되는거 없에줌*/
+    background-size: cover;/*전체화면으로 만들어줌*/
+}
+
+.container-sm{
+ 
+    background-color: white;
+    min-height: 100vh; /*내가 보는 화면의 높이 만큼 vh*/
+}
