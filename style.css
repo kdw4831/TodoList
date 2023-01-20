@@ -37,3 +37,7 @@ body{     /*body는 기본값으로 마진이 8px이 들어감*/
     justify-content: space-between;
     padding:1em;
 }
+
+.task-done{
+    text-decoration:line-through;  /*텍스트에 밑줄을 그어줌*/
+}
