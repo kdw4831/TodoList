@@ -15,12 +15,12 @@ body{     /*body는 기본값으로 마진이 8px이 들어감*/
 .task-area{
     border: 1px solid lightgray;
 }
-.task-taps{
+.task-tabs{
     display: flex;
     border-bottom: 1px solid lightgray;
     position: relative;
 }
-.task-taps div{
+.task-tabs div{
     padding:1em ;
 }
 #under-line{
@@ -40,4 +40,8 @@ body{     /*body는 기본값으로 마진이 8px이 들어감*/
 
 .task-done{
     text-decoration:line-through;  /*텍스트에 밑줄을 그어줌*/
+}
+
+.task-tabs div{
+    cursor:pointer;
 }

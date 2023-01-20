@@ -11,8 +11,17 @@
 
 let taskInput = document.getElementById("task-input");
 let addButton =document.getElementById("add-button");
-let taskList=[]
+let tabs=document.querySelectorAll(".task-tabs div") //조건에 만족하는 모든것을 가지고온다.
+let taskList=[];
+let mode='all';
+let filterList=[]
 addButton.addEventListener("click",addTask);
+
+for(let i=1; i<tabs.length; i++){
+    tabs[i].addEventListener("click",function(event){
+        filter(event)});
+
+}
 
 function addTask(){
     
@@ -26,29 +35,69 @@ function addTask(){
     render();
     
 }
+function filter(event){
+    mode=event.target.id
+    console.log("클릭됨", event.target.id);
+                    //event란 클릭을 했을때 발생되는 모든 상황에대해 알려줌
+                    //그중 event.target은 정확한 컴포넌트를 클릭을 할 수 있게 
+    filterList=[]     //현재 지역변수가 아니라 전역변수로 선언되어 가능하다. fuck
+
+    document.getElementById("under-line").style.width =event.target.offsetWidth +"px";
+    document.getElementById("under-line").style.top =event.target.offsetTop +event.target.offsetHeight+"px";
+    document.getElementById("under-line").style.left =event.target.offsetLeft +"px";
+
+    if(mode== "all"){
+        render(); 
+    }else if(mode=="ongoing"){
+        for (let i=0; i<taskList.length; i++){
+            if(taskList[i].isComplete==false){
+                filterList.push(taskList[i]);
+            }
+             
+        }
+        render(); 
+        //taskList=filterList taskList로 하면 전체 출력이므로 함수 내에서 
+               
+                  //taskList를 filterlist로 바꿔준다.하지만 filterlist로 덮어쓰기가되어 값이 안바껴 더이상 
+    }else if(mode=="done"){
+        for(let i=0; i<taskList.length; i++){
+            if(taskList[i].isComplete==true){
+                filterList.push(taskList[i]);
+            }
+        }
+        render();
+    }
+
+}
 
 function render(){
-    let resultHTML=""
-    for(let i=0;i<taskList.length;i++){
-        if(taskList[i].isComplete==true){
-        resultHTML +=` <div class="task">
-        <div class="task-done">${taskList[i].taskContent}</div>
-        <div>
-            <button onclick="toggleComplete('${taskList[i].id}')">Check</button>
-            <button onclick="deleteTask('${taskList[i].id}')">Delete</button>
-        </div>
-    </div>`;
-    }else{
-        resultHTML +=` <div class="task">
-        <div>${taskList[i].taskContent}</div>
-        <div>
-            <button onclick="toggleComplete('${taskList[i].id}')">Check</button>
-            <button onclick="deleteTask('${taskList[i].id}')">Delete</button>
-        </div>
-    </div>`;
-
+    let list=[];    
+    if(mode == "all"){
+        list=taskList;
+    }else if(mode =="ongoing" || mode=="done"){
+        list=filterList;
     }
-}
+    let resultHTML=""
+    for(let i=0;i<list.length;i++){
+            if(list[i].isComplete==true){
+            resultHTML +=` <div class="task">
+            <div class="task-done">${list[i].taskContent}</div>
+            <div>
+                <button onclick="toggleComplete('${list[i].id}')">Check</button>
+                <button onclick="deleteTask('${list[i].id}')">Delete</button>
+            </div>
+        </div>`;
+        }else{
+            resultHTML +=` <div class="task">
+            <div>${list[i].taskContent}</div>
+            <div>
+                <button onclick="toggleComplete('${list[i].id}')">Check</button>
+                <button onclick="deleteTask('${list[i].id}')">Delete</button>
+            </div>
+        </div>`;
+
+        }
+    }
 
 
     document.getElementById("task-board").innerHTML= resultHTML
